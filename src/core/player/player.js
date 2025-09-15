@@ -6,18 +6,28 @@ export class player {
   static runningSprite = null;
   static currentSprite = null;
 
+  static getResponsiveScale() {
+    return window.innerWidth < 600 ? 0.22 : Math.max(0.24, window.innerWidth * 0.0002);
+  } // Bigger on mobile, responsive on desktop
+
   static idleConfig = {
     src: "./src/core/player/koala-idle-sprite.png",
     cols: 4,
     rows: 3,
     frameCount: 12,
-    scale: 0.25, // Scale down the large sprite frames
+    get scale() {
+      return player.getResponsiveScale();
+    },
     animated: true,
     animationSpeed: 8, // Frames to wait between animation frames
     anchor: "bottom-center", // How sprite is positioned relative to player coords
-    // Game world dimensions (for collision detection and positioning)
-    logicalWidth: 40,
-    logicalHeight: 60,
+    // Game world dimensions (for collision detection and positioning) - use responsive values
+    get logicalWidth() {
+      return gameState.player.width;
+    },
+    get logicalHeight() {
+      return gameState.player.height;
+    },
   };
 
   static runningConfig = {
@@ -25,13 +35,19 @@ export class player {
     cols: 4,
     rows: 3,
     frameCount: 11, // Running sprite has 11 frames vs idle's 12
-    scale: 0.25, // Scale down the large sprite frames
+    get scale() {
+      return player.getResponsiveScale();
+    },
     animated: true,
     animationSpeed: 6, // Faster animation for running (6 vs idle's 8)
     anchor: "bottom-center", // How sprite is positioned relative to player coords
-    // Game world dimensions (for collision detection and positioning)
-    logicalWidth: 40,
-    logicalHeight: 60,
+    // Game world dimensions (for collision detection and positioning) - use responsive values
+    get logicalWidth() {
+      return gameState.player.width;
+    },
+    get logicalHeight() {
+      return gameState.player.height;
+    },
   };
 
   static init() {
@@ -68,6 +84,8 @@ export class player {
   }
 
   static setGroundLevel(canvasHeight) {
-    gameState.player.y = canvasHeight - gameState.player.height - 50;
+    // Position player on ground (responsive)
+    const groundLevel = canvasHeight * 0.905;
+    gameState.player.y = groundLevel - gameState.player.height;
   }
 }

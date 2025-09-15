@@ -5,20 +5,22 @@ export class Renderer {
     ctx.strokeStyle = "#6d3b3bff";
     ctx.lineWidth = 2;
 
-    // Vertical lines that move with camera
-    for (let x = -gameState.camera.x % 100; x < canvas.width; x += 100) {
+    // Vertical lines that move with camera (responsive spacing)
+    const gridSpacing = Math.max(80, canvas.width * 0.06);
+    for (let x = -gameState.camera.x % gridSpacing; x < canvas.width; x += gridSpacing) {
       ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, canvas.height);
       ctx.stroke();
     }
 
-    // Ground line
+    // Ground line (responsive - 90% down the screen)
     ctx.strokeStyle = "#542828ff";
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.moveTo(0, canvas.height - 50);
-    ctx.lineTo(canvas.width, canvas.height - 50);
+    const groundLevel = canvas.height * 0.9;
+    ctx.moveTo(0, groundLevel);
+    ctx.lineTo(canvas.width, groundLevel);
     ctx.stroke();
   }
 

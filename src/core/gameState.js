@@ -4,8 +4,8 @@ export const gameState = {
   player: {
     x: window.innerWidth * 0.1, // Start at 20% from left edge (responsive)
     y: 0,
-    width: 40,
-    height: 60,
+    width: Math.max(30, window.innerWidth * 0.035), // Responsive width: 3.5% of screen, min 30px
+    height: Math.max(45, window.innerWidth * 0.05), // Responsive height: 5% of screen, min 45px
     isMoving: false,
   },
   camera: {
