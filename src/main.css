@@ -1,0 +1,43 @@
+/* src/main.css */
+
+body {
+  /* Defaults (Light Theme) */
+  color-scheme: light;
+  --clr-accent-1:         hwb(209 0% 12%);
+  --clr-accent-2:         hwb(29 40% 0%);
+  --clr-base:             hwb(0 97% 3%);
+  --clr-base-2:           hwb(0 92% 8%);  /*w:98    b:1-3*/
+  --clr-base-3:           hwb(0 84% 16%); /*w:99    b:9*/
+  --clr-contrast:         hwb(0 11% 89%); /*w:59-79 b:82-89*/
+  --clr-contrast-2:       hwb(0 19% 81%); /*w:70    b:59*/
+  --clr-contrast-3:       hwb(0 33% 67%); /*w:73-77 b:48-53*/
+  --clr-success-base:     hwb(89 60% 0%);
+  --clr-success-contrast: hwb(89 0% 58%);
+  --clr-danger-base:      hwb(329 90% 0%);
+  --clr-danger-contrast:  hwb(329 0% 28%);
+  --shadow-natural: 0 .5rem 1rem rgba(0, 0, 0, 0.07);
+  --shadow-neomorphism: .75rem .75rem 1rem 0 rgba(0,0,0,0.05), 
+                    -.5rem -.5rem .75rem 0 rgba(255,255,255,0.5);
+}
+
+
+/***********
+RESET - MAIN
+***********/
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-moz-text-size-adjust:none;-webkit-text-size-adjust:none;text-size-adjust:none;}
+body{min-height:100vh;background-color:var(--clr-base);}
+body:has(dialog[open]){overflow:hidden;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+svg{display:block;}/*otherwise they default inline-block, creating unintented gaps*/
+img{max-width:100%;height:auto}
+
+/* Game Canvas */
+#gameCanvas {
+  width: 100vw;
+  height: 100dvh;
+  display: block;
+  background-color: #1b1b1b;
+}

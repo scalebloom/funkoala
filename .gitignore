@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+
+# Environment variables
+.env
+.env.local
+
+# Netlify
+.netlify
+
+# OS specific
+.DS_Store
+node_modules/.vite/deps/_metadata.json

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html style="color-scheme: dark">
+  <head>
+    <title>Simple Sprite Test</title>
+    <style></style>
+  </head>
+  <body style="text-align: center; font-family: Arial">
+    <h1>Sprite Test</h1>
+    <input type="file" id="imageUpload" accept="image/*" onchange="loadNewImage(event)" />
+    <br /><br />
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <br />
+    <button onclick="toggleAnim()">Start/Stop</button>
+    <button onclick="nextFrame()">Next Frame</button>
+    <p>Frame: <span id="frame">0</span></p>
+    <p>Frame size: <span id="frameSize">-</span></p>
+    <p>Canvas size: <span id="canvasSize">-</span></p>
+    <p>Scale: <span id="scaleInfo">-</span></p>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+
+      // Standard sprite sheet settings
+      const COLS = 4;
+      const ROWS = 3;
+      const TOTAL_FRAMES = 12;
+
+      let currentFrame = 0;
+      let isAnimating = false;
+      let frameWidth, frameHeight;
+
+      let scale = 1;
+
+      img.onload = function () {
+        frameWidth = img.width / COLS;
+        frameHeight = img.height / ROWS;
+
+        // Make canvas responsive - fit nicely in viewport
+        const maxWidth = window.innerWidth * 0.8;
+        const maxHeight = window.innerHeight * 0.6;
+
+        scale = Math.min(maxWidth / frameWidth, maxHeight / frameHeight, 1);
+
+        canvas.width = frameWidth * scale;
+        canvas.height = frameHeight * scale;
+
+        // Debug info
+        document.getElementById("frameSize").textContent = frameWidth + "x" + frameHeight;
+        document.getElementById("canvasSize").textContent = canvas.width + "x" + canvas.height;
+        document.getElementById("scaleInfo").textContent = scale.toFixed(2);
+
+        draw();
+      };
+
+      img.src = "koala-idle-pixelArt-sprite.png";
+
+      function loadNewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = "#87CEEB";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const col = currentFrame % COLS;
+        const row = Math.floor(currentFrame / COLS);
+
+        // Draw frame scaled to fit canvas
+        ctx.drawImage(
+          img,
+          col * frameWidth,
+          row * frameHeight,
+          frameWidth,
+          frameHeight,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        document.getElementById("frame").textContent = currentFrame;
+      }
+
+      function toggleAnim() {
+        isAnimating = !isAnimating;
+        if (isAnimating) animate();
+      }
+
+      function nextFrame() {
+        currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
+        draw();
+      }
+
+      function animate() {
+        if (!isAnimating) return;
+        nextFrame();
+        setTimeout(animate, 200);
+      }
+    </script>
+  </body>
+</html>
