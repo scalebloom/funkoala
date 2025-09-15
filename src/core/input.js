@@ -3,6 +3,7 @@ import { gameState } from "./gameState.js";
 export class Input {
   static init(canvas) {
     this.setupKeyboardControls();
+    this.setupMouseControls(canvas);
     this.setupTouchControls(canvas);
   }
 
@@ -19,6 +20,29 @@ export class Input {
         e.preventDefault();
         gameState.player.isMoving = false;
       }
+    });
+  }
+
+  static setupMouseControls(canvas) {
+    canvas.addEventListener("mousedown", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // Check if click is on player
+      const charScreenX = gameState.player.x - gameState.camera.x;
+      if (
+        mouseX >= charScreenX &&
+        mouseX <= charScreenX + gameState.player.width &&
+        mouseY >= gameState.player.y &&
+        mouseY <= gameState.player.y + gameState.player.height
+      ) {
+        gameState.player.isMoving = true;
+      }
+    });
+
+    canvas.addEventListener("mouseup", (e) => {
+      gameState.player.isMoving = false;
     });
   }
 
