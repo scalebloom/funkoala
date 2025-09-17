@@ -5,11 +5,10 @@ export class Camera {
   static followOffset = 0.15; // Where to position player when following
 
   static update(canvas) {
-    // Follow player when they move beyond threshold
-    if (gameState.player.isMoving) {
-      if (gameState.player.x - gameState.camera.x > canvas.width * this.followThreshold) {
-        gameState.camera.x = gameState.player.x - canvas.width * this.followOffset;
-      }
+    // Always smooth toward target when player is beyond threshold
+    if (gameState.player.x - gameState.camera.x > canvas.width * this.followThreshold) {
+      const targetX = gameState.player.x - canvas.width * this.followOffset;
+      gameState.camera.x += (targetX - gameState.camera.x) * 0.1;
     }
   }
 
