@@ -56,20 +56,24 @@ export class player {
     this.currentSprite = this.idleSprite;
   }
   static update(canvas) {
-    // Switch sprites based on movement state
-    if (gameState.player.isMoving) {
+    // Switch sprites based on animation state
+    if (gameState.player.isRunning) {
       if (this.currentSprite !== this.runningSprite) {
         this.currentSprite = this.runningSprite;
         this.currentSprite.reset(); // Reset animation when switching
       }
-
-      gameState.player.x += gameState.moveSpeed;
     } else {
       if (this.currentSprite !== this.idleSprite) {
         this.currentSprite = this.idleSprite;
         this.currentSprite.reset(); // Reset animation when switching
       }
     }
+
+    // Handle movement based on movement type
+    if (gameState.player.movementType === 'continuous') {
+      gameState.player.x += gameState.moveSpeed;
+    }
+    // Dashing movement is handled by the input system's animation
 
     // Update current sprite animation
     if (this.currentSprite) {
